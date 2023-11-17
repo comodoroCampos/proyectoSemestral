@@ -5,6 +5,7 @@ import { IonicModule } from '@ionic/angular';
 import { UsuarioModel } from '../models/UsuarioModel';
 import { ActivatedRoute, Router } from '@angular/router';
 import { VehiculoModel } from '../models/VehiculoModel';
+import { UserService } from '../services/user-service';
 
 @Component({
   selector: 'app-pasajero',
@@ -15,19 +16,34 @@ import { VehiculoModel } from '../models/VehiculoModel';
 })
 export class PasajeroPage implements OnInit {
 
-  userInfoReceived: UsuarioModel | undefined;
-  vehiculoInfoReceived: VehiculoModel | undefined;
-  idUserHtmlRouterLink: any;
+  idUser?:number;
+  userInfoReceived?: UsuarioModel;
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute) {
-    this.userInfoReceived = this.router.getCurrentNavigation()?.extras.state?.['userInfo'];
-   }
+  vehiculoInfoReceived?: VehiculoModel;
+  idUserHtmlRouterLink: any;
+  cargando:boolean=false;
+
+  constructor(private router: Router, private activatedRoute: ActivatedRoute,private usuarioService:UserService) {
+    this.idUser = this.router.getCurrentNavigation()?.extras.state?.['userInfo'];
+    
+    this.usuarioService.traerInfoUsuarioLogeado(this.idUser??0).subscribe(
+      (stk) => {
+        this.userInfoReceived = stk[0];
+        console.log(this.userInfoReceived);
+        this.cargando = true;
+      },
+      (err) => {
+        this.cargando = false;
+      }
+    );
+
+      }
 
   ngOnInit() {
   }
 
   cerrarSesion(){
     this.router.navigate(['/login']);
-  }
+  }
 
 }
