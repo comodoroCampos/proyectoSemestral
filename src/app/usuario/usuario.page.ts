@@ -31,7 +31,7 @@ export class UsuarioPage implements OnInit {
 
     this.x.traerInfoUsuarioLogeado(this.userId).subscribe(
       (data)=>{
-        
+        console.log(data);
         this.userInfoReceived=data[0];
       }
     );
