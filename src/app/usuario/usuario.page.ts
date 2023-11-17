@@ -16,22 +16,23 @@ import { UserService } from '../services/user-service';
 })
 export class UsuarioPage implements OnInit {
 
-  userInfoReceived: UsuarioModel | any | undefined;
-  userId!: any;
+  userInfoReceived?: UsuarioModel;
+  userId?: number;
 
   constructor(private x: UserService, private router: Router, private activatedRoute: ActivatedRoute) {
     //Recibir ID del usuario logeado
-    this.userInfoReceived = this.router.getCurrentNavigation()?.extras.state?.['userInfo'];
-    console.log(this.userInfoReceived);
+    this.userId = this.router.getCurrentNavigation()?.extras.state?.['userInfo'];
+    console.log(this.userId);
 
   }
 
   ngOnInit() {
     //FUNCIONES PARA BUSCAR INFOMACION SOBRE EL ID DEL USUARIO LOGEADO
 
-    this.x.traerInfoUsuarioLogeado(this.userInfoReceived).subscribe(
+    this.x.traerInfoUsuarioLogeado(this.userId).subscribe(
       (data)=>{
-        console.log('la data es:' + data) ;
+        
+        this.userInfoReceived=data[0];
       }
     );
 
