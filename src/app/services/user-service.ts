@@ -28,7 +28,7 @@ export class UserService {
     }
     
     traerInfoUsuarioLogeado(id:number): Observable<UsuarioModel[]> {
-        return this._httpclient.get<UsuarioModel[]>(this.URL_SUPABASE+'/usuario?id=eq.'+id+'&select=id,nombre,mail,nombre_usuario,pass,tipo_usuario,vehiculo(*)',
+        return this._httpclient.get<UsuarioModel[]>(this.URL_SUPABASE+'/usuario?id=eq.'+id+'&select=id,nombre,mail,apellido,nombre_usuario,pass,tipo_usuario,vehiculo(*)',
         { headers: this.supabaseheaders });
     }
         
