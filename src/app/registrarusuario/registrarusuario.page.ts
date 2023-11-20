@@ -6,7 +6,9 @@ import { UsuarioModel } from '../models/UsuarioModel';
 import { ActivatedRoute, Router, RouterLinkWithHref } from '@angular/router';
 import { lastValueFrom } from 'rxjs';
 import { UserService } from '../services/user-service';
+import { VehiculoService } from '../services/vehiculo.service';
 import { HttpClientModule } from '@angular/common/http';
+import { VehiculoModel } from '../models/VehiculoModel';
 
 @Component({
   selector: 'app-registrarusuario',
@@ -30,11 +32,18 @@ export class RegistrarusuarioPage implements OnInit {
   userInfoReceived: UsuarioModel | undefined;
   idUserHtmlRouterLink: any;
 
+  vehiculo: Partial<VehiculoModel> = {
+    color_vehiculo: '',
+    marca_vehiculo: '',
+    modelo_vehiculo: '',
+    patente_vehiculo: ''
+  }
+
   tipoPerfil!: string;
 
   public alertButtons = ['OK'];
 
-   constructor(private route: Router, private _usuarioService: UserService) {
+   constructor(private route: Router, private _usuarioService: UserService, private vehiculoService: VehiculoService) {
   }
 
   ngOnInit() {
@@ -62,22 +71,32 @@ export class RegistrarusuarioPage implements OnInit {
     if (this.tipoPerfil == 'CONDUCTOR') {
       if (this.userRegisterModal.nombre && this.userRegisterModal.apellido && this.userRegisterModal.nombre_usuario && this.userRegisterModal.pass
         && this.userRegisterModal.mail) {
+          this.userRegisterModal.tipo_usuario = 1;
         try {
+          console.log('vehiculo: ', this.vehiculo.patente_vehiculo)
           const response = await lastValueFrom(this._usuarioService.addNewUser(this.userRegisterModal));
           console.log(response);
+          
+
+         await this.guardarVehiculo()
+          
           alert('Conductor registrado con éxito!');
+
           this.salir();
         } catch (error) {
           console.error(error);
           alert('Error al registrar el conductor.');
         }
       } else {
-        alert('Por favor, completa todos los campos.');
+        console.log(this.userRegisterModal)
+        alert('Por favor, completa todos los campos. ' + this.userRegisterModal);
       }
     }else{
       if (this.userRegisterModal.nombre && this.userRegisterModal.apellido && this.userRegisterModal.nombre_usuario && this.userRegisterModal.pass
         && this.userRegisterModal.mail) {
+          this.userRegisterModal.tipo_usuario = 2;
         try {
+          console.log('registrar')
           const response = await lastValueFrom(this._usuarioService.addNewUser(this.userRegisterModal));
           console.log(response);
           alert('Pasajero registrado con éxito!');
@@ -92,4 +111,24 @@ export class RegistrarusuarioPage implements OnInit {
     }
   }
 
+
+  async guardarVehiculo() {
+    console.log('guardar auto')
+    this._usuarioService.getLoginUser(this.userRegisterModal.nombre_usuario, this.userRegisterModal.pass).subscribe(
+      {
+        next: (user) => {
+          console.log('user encontrado: ', user[0])
+
+
+          if (this.vehiculo) {
+
+            this.vehiculo.usuario = user[0].id
+            const response =  lastValueFrom(this.vehiculoService.addNewVehiculo(this.vehiculo));
+            console.log('vehiculo registrado correctamente!')
+
+          }
+        }
+      }
+    )
+  }
 }

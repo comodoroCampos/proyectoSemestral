@@ -7,5 +7,5 @@ export interface VehiculoModel {
     modelo_vehiculo: string;
     color_vehiculo: string;
     patente_vehiculo: string;
-    usuario: UsuarioModel;
+    usuario: number;
 }

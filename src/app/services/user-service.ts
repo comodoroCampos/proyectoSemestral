@@ -24,12 +24,18 @@ export class UserService {
     }   
 
     addNewUser(user: Partial<UsuarioModel>): Observable<Partial<UsuarioModel>> {
-        return this._httpclient.post<Partial<UsuarioModel>>(this.URL_SUPABASE + 'USERS', user, { headers: this.supabaseheaders });
+        return this._httpclient.post<Partial<UsuarioModel>>(this.URL_SUPABASE + '/usuario', user, { headers: this.supabaseheaders });
     }
     
     traerInfoUsuarioLogeado(id:number): Observable<UsuarioModel[]> {
         return this._httpclient.get<UsuarioModel[]>(this.URL_SUPABASE+'/usuario?id=eq.'+id+'&select=id,nombre,mail,apellido,nombre_usuario,pass,tipo_usuario,vehiculo(*)',
         { headers: this.supabaseheaders });
     }
-        
+    
+    
+    obtenerbyEmail(mail:string): Observable<UsuarioModel[]> {
+        return this._httpclient.get<UsuarioModel[]>(this.URL_SUPABASE+'/usuario?mail=eq.'+mail+'&select=id,nombre,mail,apellido,nombre_usuario,pass,tipo_usuario,vehiculo(*)',
+        { headers: this.supabaseheaders });
+    }
+
 }

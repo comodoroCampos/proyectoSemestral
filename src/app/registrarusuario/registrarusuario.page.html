@@ -11,21 +11,28 @@
       </ion-item>
     </ion-list>
     <ion-input label="Nombre de Usuario" label-placement="floating" fill="solid"
-      placeholder="Ingresar nombre de Usuario" [(ngModel)]="userRegisterModal.nombre_usuario" required></ion-input>
+      placeholder="Ingresar nombre de Usuario" [(ngModel)]="userRegisterModal.nombre_usuario" required>
+    </ion-input>
+
     <ion-input label="Ingresar contraseña" label-placement="floating" fill="solid" placeholder="Contraseña"
-      type="password" [(ngModel)]="userRegisterModal.pass" required></ion-input>
-    <ion-input label="E-mail" label-placement="floating" fill="solid" placeholder="Ingresar mail"></ion-input>
+      type="password" [(ngModel)]="userRegisterModal.pass" required>
+    </ion-input>
+    <ion-input label="E-mail" label-placement="floating" fill="solid" placeholder="Ingresar mail"
+    [(ngModel)]="userRegisterModal.mail" required>
+
+    </ion-input>
     <ion-input label="Nombre alumno" label-placement="floating" fill="solid"
       placeholder="Ingresar nombre alumno" [(ngModel)]="userRegisterModal.nombre" required></ion-input>
     <ion-input label="Apelido alumno" label-placement="floating" fill="solid"
       placeholder="Ingresar apellido alumno" [(ngModel)]="userRegisterModal.apellido" required></ion-input>
     <ion-input label="Marca Vehiculo" label-placement="floating" fill="solid"
-      placeholder="Ingresar marca vehiculo"></ion-input>
+      placeholder="Ingresar marca vehiculo"  [(ngModel)]="vehiculo.marca_vehiculo"></ion-input>
     <ion-input label="Modelo Vehiculo" label-placement="floating" fill="solid"
-      placeholder="Ingresar modelo vehiculo"></ion-input>
-    <ion-input label="Color" label-placement="floating" fill="solid" placeholder="Ingresar color vehiculo"></ion-input>
+      placeholder="Ingresar modelo vehiculo" [(ngModel)]="vehiculo.modelo_vehiculo"></ion-input>
+    <ion-input label="Color" label-placement="floating" fill="solid" placeholder="Ingresar color vehiculo"
+    [(ngModel)]="vehiculo.color_vehiculo"></ion-input>
     <ion-input label="Patente" label-placement="floating" fill="solid"
-      placeholder="Ingresar patente vehiculo"></ion-input>
+      placeholder="Ingresar patente vehiculo" [(ngModel)]="vehiculo.patente_vehiculo"></ion-input>
   </ion-list>
 
   <div style="text-align: center;">

@@ -131,7 +131,6 @@ export class LoginPage implements OnInit {
   seleccion(ev: any) {
     this.tipoPerfil = ev.target.value;
     console.log(this.tipoPerfil)
-  }
+  }
 
 }
-
