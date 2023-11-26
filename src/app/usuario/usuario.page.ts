@@ -6,6 +6,9 @@ import { UsuarioModel } from '../models/UsuarioModel';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { VehiculoModel } from '../models/VehiculoModel';
 import { UserService } from '../services/user-service';
+import { VehiculoService } from '../services/vehiculo.service';
+import { ViajeModel } from '../models/ViajeModel';
+import { ViajeService } from '../services/viaje.service';
 
 @Component({
   selector: 'app-usuario',
@@ -21,7 +24,12 @@ export class UsuarioPage implements OnInit {
   userInfoReceived?: UsuarioModel;
   userId?: number;
 
-  constructor(private userService: UserService, private router: Router, private activatedRoute: ActivatedRoute) {
+  misViajes?: ViajeModel[]
+
+  constructor(private userService: UserService,
+     private vehiculoService: VehiculoService,
+     private viajeService: ViajeService,
+     private router: Router, private activatedRoute: ActivatedRoute) {
     //Recibir ID del usuario logeado
     this.userId = this.router.getCurrentNavigation()?.extras.state?.['userInfo'];
     console.log(this.userId);
@@ -35,14 +43,18 @@ export class UsuarioPage implements OnInit {
       (data)=>{
         console.log(data);
         this.userInfoReceived=data[0];
+
+        this.viajeService.getViajesConductor(this.userInfoReceived.id).subscribe(
+          (data)=>{
+            this.misViajes = data
+            console.log(this.misViajes)
+          }
+        )
+
       }
     );
 
-    if (this.userInfoReceived.tipo_usuario = 1) {
 
-      const auto = this.userInfoReceived.vehiculo.marca_vehiculo + this.userInfoReceived.vehiculo.modelo_vehiculo + this.userInfoReceived.vehiculo.color_vehiculo;
-
-    }
 
   }
 
@@ -60,6 +72,17 @@ export class UsuarioPage implements OnInit {
       }
     }
     this.router.navigate(['/viajes'],  userInfoSend);
+  }
+
+  miViaje(miViaje: number) {
+    let userInfoSend: NavigationExtras = {
+      state: {
+        //ENVIAR SOLO ID
+        userInfo: this.userInfoReceived,
+        viaje: miViaje
+      }
+    }
+    this.router.navigate(['/viaje'],  userInfoSend);
   }
 
 }

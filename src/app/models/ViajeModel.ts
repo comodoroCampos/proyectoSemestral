@@ -18,4 +18,5 @@ export interface ViajeModel {
     direccion: string;
     latitud: number;
     longitud: number;
+    activo: boolean;
 }

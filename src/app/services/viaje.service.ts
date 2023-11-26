@@ -25,7 +25,7 @@ export class ViajeService {
         return this._httpclient.get<ViajeModel[]>(this.URL_SUPABASE+'viaje?id_conductor=eq.'+id, { headers: this.headers});
     }   
 
-    getViajesPasajero(id: number): Observable<Partial<ViajeModel[]>> {
+    getViajePorId(id: number): Observable<Partial<ViajeModel[]>> {
         return this._httpclient.get<ViajeModel[]>(this.URL_SUPABASE+'viaje?id=eq.'+id, { headers: this.headers});
     }
     
@@ -33,6 +33,11 @@ export class ViajeService {
         return this._httpclient.get<DetalleViajeModel[]>(this.URL_SUPABASE+'/detalle_viaje?id_pasajero=eq.'+id, { headers: this.supabaseheaders });
     }
     
+
+    terminarViaje(id: number, viaje: Partial<ViajeModel>): Observable<Partial<ViajeModel>> {
+        return this._httpclient.patch<Partial<ViajeModel>>(this.URL_SUPABASE + '/viaje?id=eq.'+id, viaje, { headers: this.supabaseheaders });
+    }
+
     
     addNewViaje(viaje: Partial<ViajeModel>): Observable<Partial<ViajeModel>> {
         return this._httpclient.post<Partial<ViajeModel>>(this.URL_SUPABASE + '/viaje', viaje, { headers: this.supabaseheaders });

@@ -23,17 +23,22 @@
     <ion-item>
       <ion-label [contentEditable]="true">Mail: {{ userInfoReceived?.mail }}</ion-label>
     </ion-item>
-    <ion-item>
-      <ion-label>Contraseña: {{ userInfoReceived?.pass }}</ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-toggle [checked]="false">Habilitar Vehiculo</ion-toggle>
-    </ion-item>
   </ion-list>
+
+    <ion-list>
+      Viajes:
+      <ion-item *ngFor="let item of misViajes">
+        <ion-label [contentEditable]="true"
+         [ngStyle]="{'color': item.activo ? 'green' : 'black' }"
+         (click)="miViaje(item.id)"
+         > {{ item.direccion }}</ion-label>
+
+      </ion-item>
+    </ion-list>
 
   <div style="text-align: center;">
     
-    <ion-button expand="full" color="success" (click)="irViajes()">Viajes</ion-button>
+    <ion-button expand="full" color="success" (click)="irViajes()">Crear Viaje</ion-button>
 
   </div>
 

@@ -49,6 +49,28 @@ export class LoginPage implements OnInit {
   }
 
   ngOnInit() {
+
+    console.log('buscar local')
+    const userStora = JSON.parse(localStorage.getItem('user'))
+
+    if (userStora) {
+        let userInfoSend: NavigationExtras = {
+          state: {
+            //ENVIAR SOLO ID
+            userInfo: userStora.id
+          }
+        }
+        if (userStora.tipo_usuario === 1) {
+
+          this.route.navigate(['/usuario'], userInfoSend)
+
+        } else {
+          this.route.navigate(['/pasajero'], userInfoSend);
+
+        }
+    }
+
+
     this.userLoginModalRestart();
 
   }
@@ -68,6 +90,8 @@ export class LoginPage implements OnInit {
   }
 
   async userLogin(userLoginInfo: UsuarioModel) {
+    
+
     this._usuarioService.getLoginUser(userLoginInfo.nombre_usuario, userLoginInfo.pass).subscribe(
       {
         next: (user) => {
@@ -77,6 +101,9 @@ export class LoginPage implements OnInit {
             this.alertButtons;
             alert('Debe seleccionar perfil');
           }
+
+
+          localStorage.setItem('user', JSON.stringify(user[0]))
 
           if (user.length > 0) {
             //EXISTE

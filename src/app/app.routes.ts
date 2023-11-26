@@ -28,6 +28,10 @@ export const routes: Routes = [
     loadComponent: () => import('./viajes/viajes.page').then( m => m.ViajesPage)
   },
   {
+    path: 'viaje',
+    loadComponent: () => import('./viaje/viaje.page').then( m => m.ViajePage)
+  },
+  {
     path: '**',
     redirectTo: 'login'
   },

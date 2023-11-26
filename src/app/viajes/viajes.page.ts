@@ -37,6 +37,8 @@ export class ViajesPage implements OnInit {
     coordenadas_origen: 'string'
   };
 
+  isConductor : boolean = true
+
   map: any;
   direccion: string = '';
   autocompleteService: any;
@@ -63,6 +65,8 @@ export class ViajesPage implements OnInit {
 
 
     } else {
+
+        this.isConductor = false
 
     }
 
@@ -138,9 +142,7 @@ export class ViajesPage implements OnInit {
   }
 
 
-  irViajes() {
-    this.router.navigate(['/login']);
-  }
+
 
 
   onSelectChange(event: any) {
@@ -149,12 +151,9 @@ export class ViajesPage implements OnInit {
 
 
 iniciarViaje() {
-  console.log('viaje: ', this.viaje);
-  console.log('vehiculo: ', this.auto)
 
 
 
-console.log('selectedLocation: ', this.selectedLocation)
 
 this.viaje.id_vehiculo = this.auto.id
 this.viaje.nro_viaje = this.auto.cantidad_pasajeros
@@ -164,12 +163,11 @@ this.viaje.coordenadas_origen = "-33.03365431663931, -71.53317787905145"
 this.viaje.direccion = this.selectedLocation.address
 this.viaje.latitud = this.selectedLocation.coordinates.lat
 this.viaje.longitud = this.selectedLocation.coordinates.lng
+this.viaje.activo = true
 console.log('viaje: ', this.viaje)
 
 try {
   const response =  lastValueFrom(this.viajeService.addNewViaje(this.viaje));
-
-
 } catch(err) {
   console.log(err)
 }
