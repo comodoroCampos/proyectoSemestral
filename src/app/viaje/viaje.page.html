@@ -38,9 +38,15 @@
 
   </ion-list>
 
-  <div style="text-align: center;">
+  <div style="text-align: center;" *ngIf="isConductor">
     
     <ion-button expand="full" color="success" (click)="terminarViaje()">Terminar</ion-button>
+
+  </div>
+
+  <div style="text-align: center;" *ngIf="isPasajero">
+    
+    <ion-button expand="full" color="success" (click)="tomarViaje()">Tomar</ion-button>
 
   </div>
 

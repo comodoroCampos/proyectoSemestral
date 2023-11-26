@@ -16,21 +16,20 @@
     <ion-item>
       <ion-label>Mail: {{ userInfoReceived?.mail }}</ion-label>
     </ion-item>
-    <ion-item>
-      <ion-label>Contraseña: {{ userInfoReceived?.pass }}</ion-label>
-    </ion-item>
+
   </ion-list>
 
   <div style="text-align: center;" *ngIf="cargando">
 
-    <ion-list [inset]="true">
-      <ion-icon name="car-outline" style="zoom:3.0;"></ion-icon>
-      <ion-item>
-        <ion-label>Conductor {{ userInfoReceived?.nombre }}</ion-label>
-      </ion-item>
-      <ion-item>
-        <ion-label>Vehiculo: {{ vehiculoInfoReceived?.marca_vehiculo }} {{ vehiculoInfoReceived?.modelo_vehiculo }} {{
-          vehiculoInfoReceived?.color_vehiculo }}</ion-label>
+    <ion-list>
+      Viajes:
+      <ion-item *ngFor="let item of viajesActivos">
+        <ion-label [contentEditable]="true"
+         
+         (click)="irViaje(item.id)"
+         >{{ item.direccion }}</ion-label>
+         
+
       </ion-item>
     </ion-list>
   

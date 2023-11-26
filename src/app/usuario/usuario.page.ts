@@ -9,6 +9,7 @@ import { UserService } from '../services/user-service';
 import { VehiculoService } from '../services/vehiculo.service';
 import { ViajeModel } from '../models/ViajeModel';
 import { ViajeService } from '../services/viaje.service';
+import { LogoutService } from '../services/logout.service';
 
 @Component({
   selector: 'app-usuario',
@@ -29,6 +30,7 @@ export class UsuarioPage implements OnInit {
   constructor(private userService: UserService,
      private vehiculoService: VehiculoService,
      private viajeService: ViajeService,
+     private logoutService: LogoutService,
      private router: Router, private activatedRoute: ActivatedRoute) {
     //Recibir ID del usuario logeado
     this.userId = this.router.getCurrentNavigation()?.extras.state?.['userInfo'];
@@ -60,6 +62,7 @@ export class UsuarioPage implements OnInit {
 
 
   cerrarSesion() {
+    this.logoutService.logout()
     this.router.navigate(['/login']);
   }
 

@@ -5,7 +5,7 @@ import { VehiculoModel } from "./VehiculoModel";
 
 export interface DetalleViajeModel {
     
-    id: number;
+    id?: number;
     id_viaje: number;
     id_pasajero: number;
 }

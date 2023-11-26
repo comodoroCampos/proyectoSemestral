@@ -31,6 +31,7 @@ export class ViajesPage implements OnInit {
 
     precio: 0,
     nro_viaje: 0,
+    cant_asientos: 0,
     calificacion: 1,
     comentario: '',
     origen: '-33.03365431663931, -71.53317787905145',
@@ -156,7 +157,7 @@ iniciarViaje() {
 
 
 this.viaje.id_vehiculo = this.auto.id
-this.viaje.nro_viaje = this.auto.cantidad_pasajeros
+this.viaje.cant_asientos = this.auto.cantidad_pasajeros
 
 this.viaje.id_conductor = this.userInfoReceived.id
 this.viaje.coordenadas_origen = "-33.03365431663931, -71.53317787905145"

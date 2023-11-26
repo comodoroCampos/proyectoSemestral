@@ -8,6 +8,7 @@ export interface ViajeModel {
     id: number;
     precio: number;
     nro_viaje: number;
+    cant_asientos: number;
     calificacion: number;
     comentario: string;
     tipo_viaje: number;

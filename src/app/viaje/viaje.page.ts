@@ -10,6 +10,8 @@ import { ViajeService } from '../services/viaje.service';
 import { VehiculoService } from '../services/vehiculo.service';
 import { ViajeModel } from '../models/ViajeModel';
 import { lastValueFrom } from 'rxjs';
+import { DetalleViajeModel } from '../models/DetalleViajeModel';
+import { LogoutService } from '../services/logout.service';
 
 declare var google: any; // Asegúrate de tener esta declaración
 
@@ -30,7 +32,8 @@ export class ViajePage implements OnInit {
   idViaje?: number;
   viaje?: ViajeModel;
 
-  isConductor : boolean = true
+  isConductor : boolean = false
+  isPasajero : boolean = false
 
   map: any;
   direccionInicio: string = '';
@@ -45,6 +48,7 @@ export class ViajePage implements OnInit {
 
   constructor(private viajeService: ViajeService, 
     private vehiculoService: VehiculoService,
+    private logoutService: LogoutService,
     private router: Router, private activatedRoute: ActivatedRoute) {
     //Recibir ID del usuario logeado
     this.userInfoReceived = this.router.getCurrentNavigation()?.extras.state?.['userInfo'];
@@ -54,16 +58,16 @@ export class ViajePage implements OnInit {
 
  
   ngOnInit() {
-
+    this.obtenerViaje(this.idViaje)
+      
+    this.ionViewDidEnter()
 
     if (this.userInfoReceived.tipo_usuario === 1) {
-      this.obtenerViaje(this.idViaje)
-      
-      this.ionViewDidEnter()
+      this.isConductor = true
 
     } else {
 
-        this.isConductor = false
+        this.isPasajero = true
 
     }
 
@@ -134,6 +138,8 @@ export class ViajePage implements OnInit {
   }
 
   cerrarSesion() {
+    this.logoutService.logout()
+
     this.router.navigate(['/login']);
   }
 
@@ -143,6 +149,34 @@ export class ViajePage implements OnInit {
     this.viaje.activo = false;
     console.log('viaje:', this.viaje)
     this.viajeService.terminarViaje(this.viaje.id, this.viaje)
+
+  }
+
+
+  tomarViaje() {
+    console.log('tomarViaje')
+    this.viaje.activo = false;
+    console.log('viaje:', this.viaje)
+    let detalle : DetalleViajeModel = {
+      id_pasajero : this.userInfoReceived.id,
+      id_viaje : this.viaje.id,
+    }
+    
+    console.log('detalle: ', detalle)
+    this.viajeService.getDetalleViajePorViaje(this.viaje.id).subscribe(
+      (viajes) => {
+        console.log('viajes: ', viajes)
+        if (viajes && viajes.length < this.viaje.nro_viaje) {
+            console.log('Se toma el viaje')
+            try {
+              const response =  lastValueFrom(this.viajeService.tomarViaje(detalle));
+            } catch(err) {
+              console.log(err)
+            }
+        }
+      }
+    )
+
 
   }
 
