@@ -27,6 +27,7 @@ export class RegistrarusuarioPage implements OnInit {
     nombre_usuario: '',
     pass: '',
     tipo_usuario:null
+
   };
 
   userInfoReceived: UsuarioModel | undefined;
@@ -36,7 +37,8 @@ export class RegistrarusuarioPage implements OnInit {
     color_vehiculo: '',
     marca_vehiculo: '',
     modelo_vehiculo: '',
-    patente_vehiculo: ''
+    patente_vehiculo: '',
+    cantidad_pasajeros: 4
   }
 
   tipoPerfil!: string;

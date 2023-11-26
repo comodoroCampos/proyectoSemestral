@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { UsuarioModel } from '../models/UsuarioModel';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { VehiculoModel } from '../models/VehiculoModel';
 import { UserService } from '../services/user-service';
 
@@ -14,12 +14,14 @@ import { UserService } from '../services/user-service';
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule]
 })
+
+
 export class UsuarioPage implements OnInit {
 
   userInfoReceived?: UsuarioModel;
   userId?: number;
 
-  constructor(private x: UserService, private router: Router, private activatedRoute: ActivatedRoute) {
+  constructor(private userService: UserService, private router: Router, private activatedRoute: ActivatedRoute) {
     //Recibir ID del usuario logeado
     this.userId = this.router.getCurrentNavigation()?.extras.state?.['userInfo'];
     console.log(this.userId);
@@ -29,7 +31,7 @@ export class UsuarioPage implements OnInit {
   ngOnInit() {
     //FUNCIONES PARA BUSCAR INFOMACION SOBRE EL ID DEL USUARIO LOGEADO
 
-    this.x.traerInfoUsuarioLogeado(this.userId).subscribe(
+    this.userService.traerInfoUsuarioLogeado(this.userId).subscribe(
       (data)=>{
         console.log(data);
         this.userInfoReceived=data[0];
@@ -43,8 +45,21 @@ export class UsuarioPage implements OnInit {
     }
 
   }
+
+
   cerrarSesion() {
     this.router.navigate(['/login']);
+  }
+
+
+  irViajes() {
+    let userInfoSend: NavigationExtras = {
+      state: {
+        //ENVIAR SOLO ID
+        userInfo: this.userInfoReceived
+      }
+    }
+    this.router.navigate(['/viajes'],  userInfoSend);
   }
 
 }

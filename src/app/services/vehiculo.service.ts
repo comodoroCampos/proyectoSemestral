@@ -22,8 +22,15 @@ export class VehiculoService {
 
 
 
+   getVehiculosConductor(id: number): Observable<VehiculoModel[]> {
+       return this._httpclient.get<VehiculoModel[]>(this.URL_SUPABASE+'vehiculo?usuario=eq.'+id, { headers: this.headers});
+   } 
+
    addNewVehiculo(vehiculo: Partial<VehiculoModel>): Observable<Partial<VehiculoModel>> {
       return this._httpclient.post<Partial<VehiculoModel>>(this.URL_SUPABASE + '/vehiculo', vehiculo, { headers: this.supabaseheaders });
    }
+
+
+
 
 }

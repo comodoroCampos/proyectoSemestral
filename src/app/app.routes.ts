@@ -24,6 +24,10 @@ export const routes: Routes = [
     loadComponent: () => import('./restablecercontrasena/restablecercontrasena.page').then( m => m.RestablecercontrasenaPage)
   },
   {
+    path: 'viajes',
+    loadComponent: () => import('./viajes/viajes.page').then( m => m.ViajesPage)
+  },
+  {
     path: '**',
     redirectTo: 'login'
   },
