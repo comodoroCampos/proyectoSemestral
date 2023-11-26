@@ -25,6 +25,24 @@
         </ion-select>
       </ion-item>
     </ion-list>
+  <ion-header>
+      <ion-toolbar>
+        <ion-title>
+          <ion-item>
+            <ion-label position="floating">Dirección</ion-label>
+            <ion-input [(ngModel)]="direccion" (ionChange)="onDireccionChange()"></ion-input>
+          </ion-item>        </ion-title>
+     </ion-toolbar>
+  </ion-header>
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>
+        <div style="height: 400px; width: 400px"  id="map"></div>
+      </ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+
   </ion-list>
 
   <div style="text-align: center;">

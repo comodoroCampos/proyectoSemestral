@@ -9,6 +9,10 @@ import { UserService } from '../services/user-service';
 import { ViajeService } from '../services/viaje.service';
 import { VehiculoService } from '../services/vehiculo.service';
 import { ViajeModel } from '../models/ViajeModel';
+import { lastValueFrom } from 'rxjs';
+
+declare var google: any; // Asegúrate de tener esta declaración
+
 
 @Component({
   selector: 'app-usuario',
@@ -33,6 +37,13 @@ export class ViajesPage implements OnInit {
     coordenadas_origen: 'string'
   };
 
+  map: any;
+  direccion: string = '';
+  autocompleteService: any;
+  placesService: any;
+  selectedLocation: any;
+
+
   constructor(private viajeService: ViajeService, 
     private vehiculoService: VehiculoService,
     private router: Router, private activatedRoute: ActivatedRoute) {
@@ -47,27 +58,60 @@ export class ViajesPage implements OnInit {
     if (this.userInfoReceived.tipo_usuario === 1) {
       this.obtenerVehiculos()
       
-      
+      this.initMap();
+
 
 
     } else {
 
     }
-    //FUNCIONES PARA BUSCAR INFOMACION SOBRE EL ID DEL USUARIO LOGEADO
 
- //   this.x.traerInfoUsuarioLogeado(this.userId).subscribe(
- //     (data)=>{
- //       console.log(data);
- //       this.userInfoReceived=data[0];
- //     }
- //   );
-//
- //   if (this.userInfoReceived.tipo_usuario = 1) {
-//
- //     const auto = this.userInfoReceived.vehiculo.marca_vehiculo + this.userInfoReceived.vehiculo.modelo_vehiculo + this.userInfoReceived.vehiculo.color_vehiculo;
-//
- //   }
 
+  }
+
+  ionViewDidEnter() {
+    this.loadMap();
+    this.autocompleteService = new google.maps.places.AutocompleteService();
+    this.placesService = new google.maps.places.PlacesService(this.map);
+  }
+
+  loadMap() {
+    const mapOptions = {
+      center: new google.maps.LatLng(-33.03365431663931, -71.53317787905145),
+      zoom: 8,
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+    };
+
+    this.map = new google.maps.Map(document.getElementById('map'), mapOptions);
+  }
+
+  onDireccionChange() {
+    if (this.direccion.length > 3) {
+      this.autocompleteService.getPlacePredictions({ input: this.direccion }, (predictions: any[]) => {
+        if (predictions && predictions.length > 0) {
+          this.placesService.getDetails({ placeId: predictions[0].place_id }, (place: any, status: any) => {
+            if (status === 'OK') {
+              this.map.setCenter(place.geometry.location);
+              const marker = new google.maps.Marker({
+                map: this.map,
+                position: place.geometry.location,
+                title: place.name,
+              });
+
+              // Guardar la ubicación seleccionada
+              this.selectedLocation = {
+                name: place.name,
+                address: place.formatted_address,
+                coordinates: {
+                  lat: place.geometry.location.lat(),
+                  lng: place.geometry.location.lng(),
+                },
+              };
+            }
+          });
+        }
+      });
+    }
   }
 
 
@@ -107,7 +151,35 @@ export class ViajesPage implements OnInit {
 iniciarViaje() {
   console.log('viaje: ', this.viaje);
   console.log('vehiculo: ', this.auto)
+
+
+
+console.log('selectedLocation: ', this.selectedLocation)
+
+this.viaje.id_vehiculo = this.auto.id
+this.viaje.nro_viaje = this.auto.cantidad_pasajeros
+
+this.viaje.id_conductor = this.userInfoReceived.id
+this.viaje.coordenadas_origen = "-33.03365431663931, -71.53317787905145"
+this.viaje.direccion = this.selectedLocation.address
+this.viaje.latitud = this.selectedLocation.coordinates.lat
+this.viaje.longitud = this.selectedLocation.coordinates.lng
+console.log('viaje: ', this.viaje)
+
+try {
+  const response =  lastValueFrom(this.viajeService.addNewViaje(this.viaje));
+
+
+} catch(err) {
+  console.log(err)
+}
 }
 
+initMap() {
+  const map = new google.maps.Map(document.getElementById('map'), {
+    center: { lat: -33.03365431663931, lng: -71.53317787905145 },
+    zoom: 8,
+  });
+}
 
 }

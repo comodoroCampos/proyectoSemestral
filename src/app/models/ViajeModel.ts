@@ -10,10 +10,12 @@ export interface ViajeModel {
     nro_viaje: number;
     calificacion: number;
     comentario: string;
-    tipo_viaje: TipoViajeModel;
-    id_conductor: UsuarioModel;
-    id_vehiculo: VehiculoModel;
+    tipo_viaje: number;
+    id_conductor: number;
+    id_vehiculo: number;
     origen: string;
-    destino: DestinoModel;
     coordenadas_origen: string;
+    direccion: string;
+    latitud: number;
+    longitud: number;
 }
