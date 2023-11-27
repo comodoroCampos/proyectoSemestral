@@ -47,8 +47,8 @@ export class ViajeService {
     terminarViaje(id: number, viaje: Partial<ViajeModel>): Observable<Partial<ViajeModel>> {
         return this._httpclient.patch<Partial<ViajeModel>>(this.URL_SUPABASE + '/viaje?id=eq.'+id, viaje, { headers: this.supabaseheaders });
     }
-
     
+
     addNewViaje(viaje: Partial<ViajeModel>): Observable<Partial<ViajeModel>> {
         return this._httpclient.post<Partial<ViajeModel>>(this.URL_SUPABASE + '/viaje', viaje, { headers: this.supabaseheaders });
     }

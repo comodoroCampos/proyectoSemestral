@@ -29,7 +29,7 @@
   <ion-list>
     <ion-label>Mis Viajes:</ion-label>
     <ion-item *ngFor="let item of misViajes">
-      <ion-label [contentEditable]="true" [ngStyle]="{'color': item.activo ? 'green' : 'black' }"
+      <ion-label [contentEditable]="true" [ngStyle]="{'color': item.activo ? 'green' : 'red' }"
         (click)="miViaje(item.id)"> {{ item.direccion }}</ion-label>
     </ion-item>
   </ion-list>
