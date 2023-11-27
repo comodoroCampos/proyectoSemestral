@@ -38,7 +38,7 @@ export class ViajesPage implements OnInit {
     coordenadas_origen: 'string'
   };
 
-  isConductor : boolean = true
+  isConductor: boolean = true
 
   map: any;
   direccion: string = '';
@@ -47,12 +47,12 @@ export class ViajesPage implements OnInit {
   selectedLocation: any;
 
 
-  constructor(private viajeService: ViajeService, 
+  constructor(private viajeService: ViajeService,
     private vehiculoService: VehiculoService,
     private router: Router, private activatedRoute: ActivatedRoute) {
     //Recibir ID del usuario logeado
     this.userInfoReceived = this.router.getCurrentNavigation()?.extras.state?.['userInfo'];
-    
+
   }
 
   ngOnInit() {
@@ -60,14 +60,14 @@ export class ViajesPage implements OnInit {
 
     if (this.userInfoReceived.tipo_usuario === 1) {
       this.obtenerVehiculos()
-      
+
       this.initMap();
 
 
 
     } else {
 
-        this.isConductor = false
+      this.isConductor = false
 
     }
 
@@ -122,7 +122,7 @@ export class ViajesPage implements OnInit {
 
   async obtenerVehiculos() {
     this.vehiculoService.getVehiculosConductor(this.userInfoReceived.id).subscribe(
-      (data)=>{
+      (data) => {
         console.log('obtenerVehiculos: ', data);
         this.misAutos = data
         this.obtenerViajes()
@@ -132,7 +132,7 @@ export class ViajesPage implements OnInit {
 
   async obtenerViajes() {
     this.viajeService.getViajesConductor(this.userInfoReceived.id).subscribe(
-      (data)=>{
+      (data) => {
         console.log('obtenerViajes: ', data);
       }
     );
@@ -151,34 +151,32 @@ export class ViajesPage implements OnInit {
   }
 
 
-iniciarViaje() {
+  iniciarViaje() {
 
+    this.viaje.id_vehiculo = this.auto.id
+    this.viaje.cant_asientos = this.auto.cantidad_pasajeros
 
+    this.viaje.id_conductor = this.userInfoReceived.id
+    this.viaje.coordenadas_origen = "-33.03365431663931, -71.53317787905145"
+    this.viaje.direccion = this.selectedLocation.address
+    this.viaje.latitud = this.selectedLocation.coordinates.lat
+    this.viaje.longitud = this.selectedLocation.coordinates.lng
+    this.viaje.activo = true
+    console.log('viaje: ', this.viaje)
+    alert('El viaje se ha INICIADO');
 
+    try {
+      const response = lastValueFrom(this.viajeService.addNewViaje(this.viaje));
+    } catch (err) {
+      console.log(err)
+    }
+  }
 
-this.viaje.id_vehiculo = this.auto.id
-this.viaje.cant_asientos = this.auto.cantidad_pasajeros
-
-this.viaje.id_conductor = this.userInfoReceived.id
-this.viaje.coordenadas_origen = "-33.03365431663931, -71.53317787905145"
-this.viaje.direccion = this.selectedLocation.address
-this.viaje.latitud = this.selectedLocation.coordinates.lat
-this.viaje.longitud = this.selectedLocation.coordinates.lng
-this.viaje.activo = true
-console.log('viaje: ', this.viaje)
-
-try {
-  const response =  lastValueFrom(this.viajeService.addNewViaje(this.viaje));
-} catch(err) {
-  console.log(err)
-}
-}
-
-initMap() {
-  const map = new google.maps.Map(document.getElementById('map'), {
-    center: { lat: -33.03365431663931, lng: -71.53317787905145 },
-    zoom: 8,
-  });
-}
+  initMap() {
+    const map = new google.maps.Map(document.getElementById('map'), {
+      center: { lat: -33.03365431663931, lng: -71.53317787905145 },
+      zoom: 8,
+    });
+  }
 
 }

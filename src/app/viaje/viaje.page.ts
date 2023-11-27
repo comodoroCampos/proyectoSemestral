@@ -156,6 +156,7 @@ export class ViajePage implements OnInit {
 
   tomarViaje() {
     console.log('tomarViaje')
+    alert('El viaje ha sido TOMADO');
     this.viaje.activo = false;
     console.log('viaje:', this.viaje)
     let detalle : DetalleViajeModel = {

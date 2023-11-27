@@ -14,14 +14,15 @@
     <ion-list-header>
       <ion-label style="color: dodgerblue">Crear Viaje: </ion-label>
     </ion-list-header>
-    <ion-input label="Precio" label-placement="floating" fill="solid"
+    <ion-input label="Inicio: Duoc Viña del mar"></ion-input>
+    <ion-input label="Precio del viaje" label-placement="floating" fill="solid"
       placeholder="Ingresar precio" [(ngModel)]="viaje.precio" type="number" required>
     </ion-input>
     <ion-list>
       <ion-item>
-        <ion-label>Selecciona un elemento:</ion-label>
+        <ion-label>Selecciona un vehiculo:</ion-label>
         <ion-select [(ngModel)]="auto" (ionChange)="onSelectChange($event)">
-          <ion-select-option *ngFor="let item of misAutos" [value]="item">{{ item.marca_vehiculo }}</ion-select-option>
+          <ion-select-option *ngFor="let item of misAutos" [value]="item">{{ item.marca_vehiculo }} {{ item.modelo_vehiculo }} Patente {{ item.patente_vehiculo }}</ion-select-option>
         </ion-select>
       </ion-item>
     </ion-list>
@@ -29,7 +30,7 @@
       <ion-toolbar>
         <ion-title>
           <ion-item>
-            <ion-label position="floating">Dirección</ion-label>
+            <ion-label position="floating">Ingrese dirección destino</ion-label>
             <ion-input [(ngModel)]="direccion" (ionChange)="onDireccionChange()"></ion-input>
           </ion-item>        </ion-title>
      </ion-toolbar>
