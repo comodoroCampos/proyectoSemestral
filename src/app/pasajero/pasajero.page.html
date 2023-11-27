@@ -22,14 +22,13 @@
   <div style="text-align: center;" *ngIf="cargando">
 
     <ion-list>
-      Viajes:
+      Viajes Disponibles:
       <ion-item *ngFor="let item of viajesActivos">
         <ion-label [contentEditable]="true"
          
          (click)="irViaje(item.id)"
          >{{ item.direccion }}</ion-label>
          
-
       </ion-item>
     </ion-list>
   

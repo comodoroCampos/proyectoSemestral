@@ -3,19 +3,20 @@
   <h1 class="center-content" style="padding-bottom: 50px">Bienvenido {{ userInfoReceived?.nombre }} {{
     userInfoReceived?.apellido }} </h1>
 
-    <ion-item>
-      <ion-avatar slot="start">
-        <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-      </ion-avatar>
-      <ion-label> <ion-label>{{ userInfoReceived?.nombre }} {{ userInfoReceived?.apellido }}</ion-label> </ion-label>
-    </ion-item>
+  <ion-item>
+    <ion-avatar slot="start">
+      <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+    </ion-avatar>
+    <ion-label> <ion-label>{{ userInfoReceived?.nombre }} {{ userInfoReceived?.apellido }}</ion-label> </ion-label>
+  </ion-item>
 
   <ion-list [inset]="true">
     <ion-list-header>
       <ion-label style="color: dodgerblue">Información del Conductor: </ion-label>
     </ion-list-header>
     <ion-item>
-      <ion-label>Vehiculo: {{ userInfoReceived?.vehiculo[0].marca_vehiculo }} {{ userInfoReceived?.vehiculo[0].modelo_vehiculo }} {{ userInfoReceived?.vehiculo[0].color_vehiculo }}</ion-label>
+      <ion-label>Vehiculo: {{ userInfoReceived?.vehiculo[0].marca_vehiculo }} {{
+        userInfoReceived?.vehiculo[0].modelo_vehiculo }} {{ userInfoReceived?.vehiculo[0].color_vehiculo }}</ion-label>
     </ion-item>
     <ion-item>
       <ion-label>Patente Vehiculo: {{ userInfoReceived?.vehiculo[0].patente_vehiculo }}</ion-label>
@@ -25,25 +26,24 @@
     </ion-item>
   </ion-list>
 
-    <ion-list>
-      Viajes:
-      <ion-item *ngFor="let item of misViajes">
-        <ion-label [contentEditable]="true"
-         [ngStyle]="{'color': item.activo ? 'green' : 'black' }"
-         (click)="miViaje(item.id)"
-         > {{ item.direccion }}</ion-label>
+  <ion-list>
+    <ion-label>Mis Viajes:</ion-label>
+    <ion-item *ngFor="let item of misViajes">
+      <ion-label [contentEditable]="true" [ngStyle]="{'color': item.activo ? 'green' : 'black' }"
+        (click)="miViaje(item.id)"> {{ item.direccion }}</ion-label>
+    </ion-item>
+  </ion-list>
 
-      </ion-item>
-    </ion-list>
+  <ion-row style="height: 20px"></ion-row>
 
   <div style="text-align: center;">
-    
+
     <ion-button expand="full" color="success" (click)="irViajes()">Crear Viaje</ion-button>
 
   </div>
 
   <div style="text-align: center;">
-    
+
     <ion-button expand="full" color="danger" (click)="cerrarSesion()">Cerrar Sesion</ion-button>
 
   </div>

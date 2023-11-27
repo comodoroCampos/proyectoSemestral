@@ -149,7 +149,8 @@ export class ViajePage implements OnInit {
     this.viaje.activo = false;
     console.log('viaje:', this.viaje)
     this.viajeService.terminarViaje(this.viaje.id, this.viaje)
-
+    alert('El viaje se ha TERMINADO');
+    
   }
 
 
